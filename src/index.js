@@ -3,13 +3,20 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import {BrowserRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {store} from './store/configureStore';
+import ScrollToTop from './common/util/ScrollToTop'; 
 
 
 ReactDOM.render(
 
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <ScrollToTop>
+            <App />
+            </ScrollToTop>
+        </BrowserRouter>
+    </Provider>
 
 , document.getElementById('root'));
 

@@ -9,10 +9,13 @@ import PeopleDashboard from './features/user/PeopleDashboard/PeopleDashboard';
 import UserDetailedPage from './features/user/UserDetailed/UserDetailedPage';
 import EventForm from './features/event/EventForm/EventForm';
 import SettingsDashboard from './features/user/PeopleDashboard/Settings/SettingsDashboard';
+import {withRouter} from 'react-router-dom'
 
 
 
-function App() {
+class App extends React.Component {
+  render(){
+
   return (
     <React.Fragment>
       <Switch>
@@ -21,13 +24,14 @@ function App() {
           <React.Fragment>
           <Container className="main">
           <Navbar />
-          <Switch>
+          <Switch key={this.props.location.key}>
             <Route exact path="/events" component={EventDashboard} />
             <Route exact path="/events/:id" component={EventDetailedPage} />
             <Route exact path="/people" component={PeopleDashboard} />
             <Route exact path="/profile/:id" component={UserDetailedPage} />
             <Route  path="/settings" component={SettingsDashboard} />
             <Route exact path="/createEvent" component={EventForm} />
+            <Route exact path="/manage/:id" component={EventForm} />
           </Switch>
             
           </Container>
@@ -39,5 +43,6 @@ function App() {
     
   );
 }
+}
 
-export default App;
+export default withRouter(App);
