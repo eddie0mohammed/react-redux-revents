@@ -10,6 +10,7 @@ import UserDetailedPage from './features/user/UserDetailed/UserDetailedPage';
 import EventForm from './features/event/EventForm/EventForm';
 import SettingsDashboard from './features/user/PeopleDashboard/Settings/SettingsDashboard';
 import {withRouter} from 'react-router-dom'
+import ModalManager from './features/modals/ModalManager'
 
 
 
@@ -18,6 +19,7 @@ class App extends React.Component {
 
   return (
     <React.Fragment>
+      <ModalManager />
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/(.+)" render={() => (

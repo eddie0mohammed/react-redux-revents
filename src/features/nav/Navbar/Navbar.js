@@ -4,6 +4,8 @@ import {NavLink, Link} from 'react-router-dom';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {openModal} from '../../modals/ModalActions';
 
 class Navbar extends Component {
 
@@ -12,7 +14,15 @@ class Navbar extends Component {
 
     }
 
-    handleSignIn = () => {this.setState({authenticated: true}); };
+    handleSignIn = () => {
+        this.props.openModal('LoginModal')
+     };
+
+     handleRegister = () => {
+        this.props.openModal('RegisterModal')
+
+     }
+
     handleSignOut = () => {
         this.setState({authenticated: false});
         this.props.history.push('/');
@@ -32,7 +42,7 @@ class Navbar extends Component {
                 <Menu.Item>
                 <Button as={Link} to="/createEvent" floated="right" positive inverted content="Create Event" />
                 </Menu.Item>
-                {authenticated ? <SignedInMenu handleSignOut={this.handleSignOut}/> : <SignedOutMenu handleSignIn={this.handleSignIn}/>}               
+                {authenticated ? <SignedInMenu handleSignOut={this.handleSignOut}/> : <SignedOutMenu handleSignIn={this.handleSignIn} register={this.handleRegister}/>}               
                 
             </Container>
             </Menu>
@@ -40,4 +50,11 @@ class Navbar extends Component {
     }
 }
 
-export default withRouter(Navbar);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        openModal: (method) => dispatch(openModal(method)), 
+    }
+}
+
+
+export default withRouter(connect(null, mapDispatchToProps)(Navbar));
