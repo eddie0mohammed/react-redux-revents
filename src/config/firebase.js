@@ -9,10 +9,10 @@ var firebaseConfig = {
     authDomain: "revents-fd42e.firebaseapp.com",
     databaseURL: "https://revents-fd42e.firebaseio.com",
     projectId: "revents-fd42e",
-    storageBucket: "",
+    storageBucket: "revents-fd42e.appspot.com",
     messagingSenderId: "518010162260",
     appId: "1:518010162260:web:1a52728a0ffdf03a"
-};
+  };
 
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
