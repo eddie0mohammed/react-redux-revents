@@ -28,7 +28,7 @@ const UserDetailedDescription = (props) => {
                         <List>
                             {profile.interests.map((interest, index) => {
                                 return (
-                                    <Item>
+                                    <Item key={index}>
                                         <Icon name='heart'/>
                                         <Item.Content>{interest}</Item.Content>
                                     </Item>
