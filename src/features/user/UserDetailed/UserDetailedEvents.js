@@ -1,43 +1,44 @@
 import React from 'react'
-import { Segment, Header, Grid, Menu, Card, Image } from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import { Segment, Header, Grid, Card, Image, Tab } from 'semantic-ui-react';
+import {format} from 'date-fns';
 
-const UserDetailedEvents = () => {
+const panes = [
+    { menuItem: 'All events', pane: { key: 'allEvents' } },
+    { menuItem: 'Past events', pane: { key: 'pastEvents' } },
+    { menuItem: 'Future events', pane: { key: 'futureEvents' } },
+    { menuItem: 'Hosting', pane: { key: 'hosted' } }
+  ];
+
+const UserDetailedEvents = (props) => {
+    const {events, eventsLoading, changeTab } = props;
+
     return (
         <Grid.Column width={12}>
-            <Segment attached>
+            <Segment attached loading={eventsLoading}>
                 <Header icon='calendar' content='Events'/>
-                <Menu secondary pointing>
-                    <Menu.Item name='All Events' active/>
-                    <Menu.Item name='Past Events'/>
-                    <Menu.Item name='Future Events'/>
-                    <Menu.Item name='Events Hosted'/>
-                </Menu>
-
+                <Tab
+                    onTabChange={(e, data) => changeTab(e, data)}
+                    panes={panes}
+                    menu={{ secondary: true, pointing: true }}
+                    />
+                    <br/>
                 <Card.Group itemsPerRow={5}>
-
-                    <Card>
-                        <Image src={'/assets/categoryImages/drinks.jpg'}/>
-                        <Card.Content>
-                            <Card.Header textAlign='center'>
-                                Event Title
-                            </Card.Header>
-                            <Card.Meta textAlign='center'>
-                                28th March 2018 at 10:00 PM
-                            </Card.Meta>
-                        </Card.Content>
-                    </Card>
-
-                    <Card>
-                        <Image src={'/assets/categoryImages/drinks.jpg'}/>
-                        <Card.Content>
-                            <Card.Header textAlign='center'>
-                                Event Title
-                            </Card.Header>
-                            <Card.Meta textAlign='center'>
-                                28th March 2018 at 10:00 PM
-                            </Card.Meta>
-                        </Card.Content>
-                    </Card>
+                
+                {events && events.map(event => {
+                return <Card as={Link} to={`/events/${event.id}`} key={event.id}>
+                    <Image src={`/assets/categoryImages/${event.category}.jpg`}/>
+                    <Card.Content>
+                        <Card.Header textAlign='center'>
+                            {event.title}
+                        </Card.Header>
+                        <Card.Meta textAlign='center'>
+                            <div>{event.date && format(event.date.toDate(), 'dd LLL yyyy')}</div>
+                            <div>{event.date &&  format(event.date.toDate(), 'h:mm a')}</div>
+                        </Card.Meta>
+                    </Card.Content>
+                </Card>
+                })}
 
                 </Card.Group>
             </Segment>
