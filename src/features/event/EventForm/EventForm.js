@@ -59,7 +59,7 @@ class EventForm extends Component {
           if (Object.keys(values.venueLatLng).length === 0){
             values.venueLatLng = this.props.event.venueLatLng;
           }
-            this.props.updateEvent(values);
+            await this.props.updateEvent(values);
             this.props.history.push(`/events/${this.props.initialValues.id}`)
         }else{
             
@@ -129,10 +129,10 @@ class EventForm extends Component {
                       placeholder="Event Date" />
                 
                 
-                      <Button disabled={invalid || pristine || submitting}  positive type="submit">
+                      <Button loading={this.props.loading} disabled={invalid || pristine || submitting}  positive type="submit">
                         Submit
                       </Button>
-                      <Button type="button" onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) :
+                      <Button disabled={this.props.loading} type="button" onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) :
                     () => history.push('/events')}>Cancel</Button>
                       <Button type="button" color={this.props.event.cancelled ? 'green' : 'red'}
                       floated="right" content={this.props.event.cancelled ? 'Reactivate event' : 'Cancel event'} 
@@ -155,7 +155,8 @@ const mapStateToProps = (state,ownProps) => {
   }
   return {
     initialValues: event,
-    event: event
+    event: event,
+    loading: state.async.loading
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { Grid, Loader,} from 'semantic-ui-react';
 import EventList from '../EventList/EventList';
 import {connect} from 'react-redux';
@@ -8,9 +8,16 @@ import EventActivity from '../EventActivity/EventActivity';
 
 import {firestoreConnect,} from 'react-redux-firebase';
  
+const query = [
+    {
+        collection: 'activity',
+        orderBy: ['timestamp', 'desc'],
+        limit: 5
+    }
+]
 
 class EventDashboard extends Component {
-    
+   contextRef = createRef(); 
     // handleDeleteEvent = (id) => {
     //     this.props.deleteEvent(id)
     // }
@@ -62,13 +69,15 @@ class EventDashboard extends Component {
             <div>
                 <Grid>
                     <Grid.Column width={10}>
+                    <div ref={this.contextRef}>
                         <EventList events={this.state.loadedEvents}
                          getNextEvents={this.getNextEvents}
                           loading={this.props.loading}
                            moreEvents={this.state.moreEvents}/>
+                    </div>
                     </Grid.Column>
                     <Grid.Column width={6}>
-                       <EventActivity />
+                       <EventActivity activities={this.props.activities} contextRef={this.contextRef}/>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Loader active={this.props.loading} />
@@ -83,6 +92,7 @@ const mapStateToProps = (state) => {
     return {
         events: state.events,
         loading: state.async.loading,
+        activities: state.firestore.ordered.activity
     }
 }
 
@@ -94,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(firestoreConnect([{collection: 'events'}])(EventDashboard))  ;
+export default connect(mapStateToProps, mapDispatchToProps)(firestoreConnect(query)(EventDashboard))  ;

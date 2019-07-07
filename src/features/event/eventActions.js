@@ -32,19 +32,42 @@ export const createEvent = (event) => {
     }
 }
 
-export const updateEvent = (event) => {
-    return async (dispatch, getState, {getFirestore}) => {
-        const firestore = getFirestore();
-        try{
-            // dispatch({ type: actionConsts.UPDATE_EVENT, payload:{ event }});
-            await firestore.update(`events/${event.id}`, event);
-            toastr.success('Success!', 'Event has been updated');
-
-        }catch(error){
-            toastr.error('Oops', 'Something went wrong');             
+export const updateEvent = event => {
+    return async (dispatch, getState) => {
+      const firestore = firebase.firestore();
+      try {
+        dispatch(asyncActionStart())
+        let eventDocRef = firestore.collection('events').doc(event.id);
+        let dateEqual = getState().firestore.ordered.events[0].date.isEqual(event.date);
+        if (!dateEqual) {
+          let batch = firestore.batch();
+          batch.update(eventDocRef, event);
+  
+          let eventAttendeeRef = firestore.collection('event_attendee');
+          let eventAttendeeQuery = await eventAttendeeRef.where('eventId', '==', event.id);
+          let eventAttendeeQuerySnap = await eventAttendeeQuery.get();
+  
+          for (let i=0; i<eventAttendeeQuerySnap.docs.length; i++) {
+            let eventAttendeeDocRef = await firestore 
+              .collection('event_attendee')
+              .doc(eventAttendeeQuerySnap.docs[i].id);
+  
+            batch.update(eventAttendeeDocRef, {
+              eventDate: event.date
+            })
+          } 
+          await batch.commit();
+        } else {
+          await eventDocRef.update(event);
         }
-    }
-}
+        dispatch(asyncActionFinish())
+        toastr.success('Success!', 'Event has been updated');
+      } catch (error) {
+        dispatch(asyncActionError())
+        toastr.error('Oops', 'Something went wrong');
+      }
+    };
+  };
 
 export const deleteEvent = (eventId) => {
     return {
@@ -104,10 +127,10 @@ export const getEventsForDashboard = (lastEvent) => {
 
             lastEvent ? 
             query = eventsRef
-            // .where('date', '>=', today)
+            .where('date', '>=', today)
             .orderBy('date').startAfter(startAfter).limit(2) :
             query = eventsRef
-            // .where('date', '>=', today)
+            .where('date', '>=', today)
             .orderBy('date').limit(2);
 
             let querySnap = await query.get();

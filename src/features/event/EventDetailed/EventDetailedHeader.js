@@ -47,7 +47,7 @@ const EventDetailedHeader = (props) => {
              <React.Fragment>
                {isGoing ? 
                <Button onClick={() => cancelGoingToEvent(event)}>Cancel My Place</Button> : 
-               <Button color="teal" onClick={() => goingToEvent(event)}>JOIN THIS EVENT</Button> }
+               <Button color="teal" loading={props.loading} onClick={() => goingToEvent(event)}>JOIN THIS EVENT</Button> }
                </React.Fragment>}
                 {isHost && 
                <Button as={Link} to={`/manage/${event.id}`} color="orange" floated="right">
