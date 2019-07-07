@@ -11,6 +11,8 @@ import EventForm from './features/event/EventForm/EventForm';
 import SettingsDashboard from './features/user/PeopleDashboard/Settings/SettingsDashboard';
 import {withRouter} from 'react-router-dom'
 import ModalManager from './features/modals/ModalManager'
+import {UserIsAuthenticated} from './features/auth/authWrapper';
+import NotFound from './Layout/NotFound';
 
 
 
@@ -29,11 +31,12 @@ class App extends React.Component {
           <Switch key={this.props.location.key}>
             <Route exact path="/events" component={EventDashboard} />
             <Route exact path="/events/:id" component={EventDetailedPage} />
-            <Route exact path="/people" component={PeopleDashboard} />
-            <Route exact path="/profile/:id" component={UserDetailedPage} />
-            <Route  path="/settings" component={SettingsDashboard} />
-            <Route exact path="/createEvent" component={EventForm} />
-            <Route exact path="/manage/:id" component={EventForm} />
+            <Route exact path="/people" component={UserIsAuthenticated(PeopleDashboard)} />
+            <Route exact path="/profile/:id" component={UserIsAuthenticated(UserDetailedPage)} />
+            <Route  path="/settings" component={UserIsAuthenticated(SettingsDashboard)} />
+            <Route exact path="/createEvent" component={UserIsAuthenticated(EventForm)} />
+            <Route exact path="/manage/:id" component={UserIsAuthenticated(EventForm)} />
+            <Route component={NotFound} />
           </Switch>
             
           </Container>

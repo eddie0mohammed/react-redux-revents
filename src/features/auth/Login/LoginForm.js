@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const LoginForm = (props) => {
-  const {login, handleSubmit, error, socialLogin} = props;
+  const {login, handleSubmit, error, socialLogin, submitting} = props;
   return (
     <Form size="large" onSubmit={handleSubmit(() => login(props.creds.values))} autoComplete="off">
       <Segment>
@@ -24,7 +24,7 @@ const LoginForm = (props) => {
           placeholder="password"
         />
         {error && <Label basic color="red" style={{marginBottom:'5px'}}>{error}</Label>}
-        <Button fluid size="large" color="teal">
+        <Button loading={submitting} fluid size="large" color="teal">
           Login
         </Button>
         <Divider horizontal>Or</Divider>

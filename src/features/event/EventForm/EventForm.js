@@ -134,9 +134,11 @@ class EventForm extends Component {
                       </Button>
                       <Button disabled={this.props.loading} type="button" onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) :
                     () => history.push('/events')}>Cancel</Button>
+                    {this.props.event.id && 
                       <Button type="button" color={this.props.event.cancelled ? 'green' : 'red'}
                       floated="right" content={this.props.event.cancelled ? 'Reactivate event' : 'Cancel event'} 
                       onClick={() => this.props.cancelToggle(!this.props.event.cancelled, this.props.event.id) }/>
+                    }
                     </Form>
                   </Segment>
 

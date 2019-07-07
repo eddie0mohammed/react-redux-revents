@@ -40,7 +40,7 @@ const RegisterForm = (props) => {
             placeholder="Password"
           />
           {error && <Label style={{marginBottom: '5px'}} basic color="red">{error}</Label>}
-          <Button disabled={invalid || submitting} fluid size="large" color="teal">
+          <Button loading={submitting} disabled={invalid || submitting} fluid size="large" color="teal">
             Register
           </Button>
           <Divider horizontal>Or</Divider>

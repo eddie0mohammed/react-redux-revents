@@ -56,7 +56,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         profile: profile,
         userUid: userUid,
-        events: state.events,
+        events: state.events.userEvents,
         eventsLoading: state.async.loading,
         auth: state.firebase.auth,
         photos: state.firestore.ordered.photos,

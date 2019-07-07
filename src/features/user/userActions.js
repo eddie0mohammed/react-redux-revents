@@ -2,7 +2,7 @@ import {toastr} from 'react-redux-toastr';
 import {asyncActionStart, asyncActionFinish, asyncActionError} from '../../async/asyncActions';
 import cuid from 'cuid';
 import firebase from '../../config/firebase';
-import {FETCH_EVENTS} from '../event/eventConstants'; 
+import {FETCH_USER_EVENTS} from '../event/eventConstants'; 
 
 export const updateProfile = (user) => {
     return async (dispatch, getState, {getFirebase}) => {
@@ -237,7 +237,7 @@ export const cancelGoingToEvent = event => async (
         events.push({ ...evt.data(), id: evt.id });
       }
   
-      dispatch({ type: FETCH_EVENTS, payload: { events } });
+      dispatch({ type: FETCH_USER_EVENTS, payload: { events } });
   
       dispatch(asyncActionFinish());
     } catch (error) {
