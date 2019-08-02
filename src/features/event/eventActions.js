@@ -131,10 +131,10 @@ export const getEventsForDashboard = (lastEvent) => {
             lastEvent ? 
             query = eventsRef
             .where('date', '>=', today)
-            .orderBy('date').startAfter(startAfter).limit(2) :
+            .orderBy('date').startAfter(startAfter).limit(5) :
             query = eventsRef
             .where('date', '>=', today)
-            .orderBy('date').limit(2);
+            .orderBy('date').limit(5);
 
             let querySnap = await query.get();
             
