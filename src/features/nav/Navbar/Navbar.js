@@ -38,7 +38,7 @@ class Navbar extends Component {
                 <Menu.Item as={NavLink} exact to="/events" name="Events" />
                 {authenticated &&
                     <React.Fragment>
-                    <Menu.Item as={NavLink} exact to="/people" name="People" />
+                    {/* <Menu.Item as={NavLink} exact to="/people" name="People" /> */}
                     <Menu.Item>
                     <Button as={Link} to="/createEvent" floated="right" positive inverted content="Create Event" />
                     </Menu.Item>
